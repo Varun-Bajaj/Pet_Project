@@ -1,0 +1,2270 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StayWithMyPet - Pet Sharing Platform</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <style>
+      .checked {
+        color: orange;
+      }
+      .article-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* or try 'contain' if you want to avoid cropping */
+        display: block;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        line-height: 1.6;
+        color: #333;
+        overflow-x: hidden;
+      }
+      .Custom-emojies {
+        font-size: 16px;
+      }
+      /* Animations (kept as is) */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes fadeInRight {
+        from {
+          opacity: 0;
+          transform: translateX(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-5px);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes walkingDog {
+        0% {
+          transform: translateX(-100px);
+        }
+        50% {
+          transform: translateX(calc(100vw + 50px));
+        }
+        100% {
+          transform: translateX(-100px);
+        }
+      }
+
+      @keyframes runningCat {
+        0% {
+          transform: translateX(calc(100vw + 50px)) scaleX(-1);
+        }
+        50% {
+          transform: translateX(-100px) scaleX(-1);
+        }
+        100% {
+          transform: translateX(calc(100vw + 50px)) scaleX(-1);
+        }
+      }
+
+      @keyframes flyingBird {
+        0% {
+          transform: translateX(-50px) translateY(0px);
+        }
+        25% {
+          transform: translateX(25vw) translateY(-20px);
+        }
+        50% {
+          transform: translateX(50vw) translateY(0px);
+        }
+        75% {
+          transform: translateX(75vw) translateY(-15px);
+        }
+        100% {
+          transform: translateX(calc(100vw + 50px)) translateY(0px);
+        }
+      }
+
+      @keyframes wiggle {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        25% {
+          transform: rotate(5deg);
+        }
+        75% {
+          transform: rotate(-5deg);
+        }
+      }
+
+      /* Moving Animals (kept as is, HTML elements will be removed) */
+      .moving-animals {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .walking-dog {
+        position: absolute;
+        bottom: 20%;
+        font-size: 2rem;
+        animation: walkingDog 25s linear infinite;
+        animation-delay: 2s;
+      }
+
+      .running-cat {
+        position: absolute;
+        bottom: 25%;
+        font-size: 1.8rem;
+        animation: runningCat 20s linear infinite;
+        animation-delay: 8s;
+      }
+
+      .flying-bird {
+        position: absolute;
+        top: 15%;
+        font-size: 1.5rem;
+        animation: flyingBird 18s linear infinite;
+        animation-delay: 5s;
+      }
+
+      .floating-pet {
+        position: absolute;
+        animation: float 4s ease-in-out infinite;
+      }
+
+      .floating-pet:nth-child(1) {
+        top: 10%;
+        left: 5%;
+        animation-delay: 0s;
+        font-size: 1.2rem;
+      }
+
+      .floating-pet:nth-child(2) {
+        top: 30%;
+        right: 10%;
+        animation-delay: 1s;
+        font-size: 1.5rem;
+      }
+
+      .floating-pet:nth-child(3) {
+        bottom: 40%;
+        left: 15%;
+        animation-delay: 2s;
+        font-size: 1.3rem;
+      }
+
+      .floating-pet:nth-child(4) {
+        top: 60%;
+        right: 20%;
+        animation-delay: 3s;
+        font-size: 1.1rem;
+      }
+
+      /* Header */
+      .header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        padding: 1rem 0;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 2rem;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        animation: fadeInLeft 1s ease;
+      }
+
+      .logo img {
+        height: 60px; /* Made header image a bit smaller */
+        width: auto;
+        transition: transform 0.3s ease;
+        animation: pulse 2s infinite;
+      }
+
+      .logo img:hover {
+        transform: scale(1.1) rotate(5deg);
+      }
+
+      .nav-menu {
+        display: flex;
+        list-style: none;
+        gap: 1.5rem; /* Adjusted gap for smaller menu */
+        animation: fadeInUp 1s ease 0.2s both;
+      }
+
+      .nav-menu li a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+        padding: 0.3rem 0; /* Adjusted padding for smaller menu */
+        font-size: 17px; /* Made menu font size smaller */
+      }
+
+      .nav-menu li a:hover {
+        color: #265d52;
+        transform: translateY(-2px);
+      }
+
+      .nav-menu li a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #265d52;
+        transition: width 0.3s ease;
+      }
+
+      .nav-menu li a:hover::after {
+        width: 100%;
+      }
+
+      .auth-buttons {
+        display: flex;
+        gap: 1rem;
+        animation: fadeInRight 1s ease 0.4s both;
+      }
+
+      .btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 25px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: #265d52;
+        border: 2px solid #265d52;
+      }
+
+      .btn-outline:hover {
+        background: #265d52;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(241, 110, 124, 0.3);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #265d52, #2e7163);
+        color: white;
+        border: none;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(241, 110, 124, 0.4);
+        background: linear-gradient(135deg, #265d52, #2e7163);
+      }
+
+      /* Hero Section */
+      .hero {
+        padding-top: 110px;
+        background: linear-gradient(135deg, #a7c7e7, #e6daf0);
+        min-height: calc(
+          100vh - 80px
+        ); /* Adjust height to account for header */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3Cpattern id='paw' x='0' y='0' width='20' height='20' patternUnits='userSpaceOnUse'%3E%3Ccircle cx='10' cy='8' r='2' fill='%23265D52' opacity='0.1'/%3E%3Ccircle cx='6' cy='12' r='1.5' fill='%23265D52' opacity='0.1'/%3E%3Ccircle cx='14' cy='12' r='1.5' fill='%23265D52' opacity='0.1'/%3E%3Ccircle cx='8' cy='15' r='1' fill='%23265D52' opacity='0.1'/%3E%3Ccircle cx='12' cy='15' r='1' fill='%23265D52' opacity='0.1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100' height='100' fill='url(%23paw)'/%3E%3C/svg%3E")
+          repeat;
+        animation: float 20s ease-in-out infinite;
+      }
+
+      /* .floating-elements and .floating-paw CSS rules are now redundant as HTML is removed */
+
+      .hero-content {
+        text-align: center;
+        max-width: 800px;
+        padding: 0 2rem 1rem 1rem;
+        position: relative;
+        z-index: 2;
+      }
+
+      .hero-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #265d52, #2e7163);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        animation: fadeInUp 1s ease 0.5s both;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: #333;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+        animation: fadeInUp 1s ease 0.7s both;
+      }
+
+      .hero h1 .highlight {
+        color: #265d52;
+        position: relative;
+      }
+
+      .hero h1 .highlight::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(135deg, #265d52, #2e7163);
+        border-radius: 2px;
+        animation: fadeInUp 1s ease 1.2s both;
+      }
+
+      .hero p {
+        font-size: 1.3rem;
+        color: #666;
+        margin-bottom: 3rem;
+        animation: fadeInUp 1s ease 0.9s both;
+      }
+
+      .hero-buttons {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        animation: fadeInUp 1s ease 1.1s both;
+      }
+
+      .hero-stats {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        margin-top: 4rem;
+        animation: fadeInUp 1s ease 1.3s both;
+      }
+
+      .stat {
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
+
+      .stat:hover {
+        transform: translateY(-5px);
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #265d52;
+        display: block;
+        animation: bounce 2s infinite;
+      }
+
+      .stat-label {
+        color: #666;
+        font-weight: 500;
+        margin-top: 0.5rem;
+      }
+
+      /* Search Section (kept as is) */
+      .search-section {
+        padding: 5rem 0;
+        background: white;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        animation: fadeInUp 1s ease;
+      }
+
+      .section-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #265d52, #2e7163);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 1rem;
+      }
+
+      .section-title .highlight {
+        color: #265d52;
+      }
+
+      .section-description {
+        font-size: 1.1rem;
+        color: #666;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .search-form {
+        background: white;
+        padding: 3rem;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        border: 1px solid #f0f0f0;
+        position: relative;
+        overflow: hidden;
+        animation: fadeInUp 1s ease 0.3s both;
+      }
+
+      .search-form::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(241, 110, 124, 0.05),
+          rgba(255, 138, 155, 0.05)
+        );
+        pointer-events: none;
+      }
+
+      .search-inputs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        position: relative;
+        z-index: 2;
+      }
+
+      .input-group {
+        position: relative;
+      }
+
+      .input-group label {
+        display: block;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 0.5rem;
+      }
+
+      .input-group input {
+        width: 100%;
+        padding: 1rem 1.5rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: white;
+      }
+
+      .input-group input:focus {
+        outline: none;
+        border-color: #265d52;
+        box-shadow: 0 0 0 3px rgba(241, 110, 124, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .search-btn {
+        width: 100%;
+        padding: 1.2rem;
+        background: linear-gradient(135deg, #265d52, #2e7163);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 2;
+      }
+
+      .search-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(241, 110, 124, 0.3);
+        background: linear-gradient(135deg, #265d52, #2e7163);
+      }
+
+      /* Services Section (kept as is) */
+      .services {
+        padding: 5rem 0;
+        background: linear-gradient(135deg, #a7c7e7 0%, #e6daf0 100%);
+      }
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .service-card {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border: 1px solid #f0f0f0;
+        animation: fadeInUp 1s ease;
+      }
+
+      .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+      }
+      .service-icon img,
+      .about-feature-icon img,
+      .feature-icon img {
+        max-width: 80px;
+      }
+      .service-icon {
+        width: 60px;
+        height: 60px;
+        /* background: linear-gradient(135deg, #265d52, #2e7163); */
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        transition: transform 0.3s ease;
+        font-size: 1.5rem; /* Make icon larger */
+      }
+
+      .service-card:hover .service-icon {
+        transform: scale(1.1) rotate(5deg);
+      }
+
+      .service-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 1rem;
+      }
+
+      .service-description {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+      }
+
+      .service-btn {
+        background: linear-gradient(135deg, #265d52, #2e7163);
+        color: white;
+        padding: 0.7rem 1.5rem;
+        border: none;
+        border-radius: 25px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .service-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(241, 110, 124, 0.3);
+      }
+      .masonry-gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        grid-auto-rows: 200px;
+        gap: 16px;
+      }
+
+      .gallery-section{
+        padding: 5rem 0;
+        background: white;
+      }
+
+      .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .gallery-item:hover img {
+        transform: scale(1.05);
+      }
+
+      /* Size modifiers */
+      .gallery-item.tall {
+        grid-row: span 2;
+      }
+
+      .gallery-item.wide {
+        grid-column: span 2;
+      }
+
+      .gallery-item.tall.wide {
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+
+      /* About Section (kept as is) */
+      .about {
+        padding: 5rem 0;
+        background: white;
+      }
+
+      .about-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+        margin-top: 3rem;
+      }
+
+      .about-text {
+        animation: fadeInLeft 1s ease;
+      }
+
+      .about-text h3 {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 1.5rem;
+      }
+
+      .about-text p {
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+      }
+
+      .about-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+
+      .about-stat {
+        text-align: center;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #a7c7e7, #e6daf0);
+        border-radius: 15px;
+        transition: transform 0.3s ease;
+      }
+
+      .about-stat:hover {
+        transform: scale(1.05);
+      }
+
+      .about-stat-number {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #265d52;
+        display: block;
+      }
+
+      .about-stat-label {
+        color: #666;
+        font-weight: 500;
+        margin-top: 0.5rem;
+      }
+
+      .about-visual {
+        animation: fadeInRight 1s ease;
+      }
+
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+
+      .about-feature {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        border: 1px solid #f0f0f0;
+      }
+
+      .about-feature:hover {
+        transform: translateY(-5px);
+      }
+
+      .about-feature-icon {
+        width: 50px;
+        height: 50px;
+        /* background: linear-gradient(135deg, #265d52, #2e7163); */
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        font-size: 1.2rem; /* Make icon larger */
+      }
+
+      .about-feature h4 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 0.5rem;
+      }
+
+      .about-feature p {
+        color: #666;
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+
+      /* Why Choose Us Section (kept as is) */
+      .why-choose {
+        padding: 5rem 0;
+        background: linear-gradient(135deg, #a7c7e7 0%, #e6daf0 100%);
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .feature-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        text-align: center;
+        border: 1px solid #f0f0f0;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+      }
+
+      .feature-icon {
+        width: 60px;
+        height: 60px;
+        /* background: linear-gradient(135deg, #265d52, #2e7163); */
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        transition: transform 0.3s ease;
+        font-size: 1.5rem; /* Make icon larger */
+      }
+
+      .feature-card:hover .feature-icon {
+        transform: scale(1.1) rotate(5deg);
+      }
+
+      /* Subscriptions Section */
+      .subscriptions {
+        padding: 5rem 0;
+        background: white;
+      }
+
+      .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .pricing-card {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border: 2px solid #f0f0f0;
+        position: relative;
+      }
+
+      .pricing-card.popular {
+        border-color: #265d52;
+        transform: scale(1.05);
+      }
+
+      .pricing-card.popular::before {
+        content: "Most Popular";
+        position: absolute;
+        top: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #265d52, #2e7163);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+
+      .pricing-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+      }
+
+      .pricing-card.popular:hover {
+        transform: translateY(-10px) scale(1.05);
+      }
+
+      .plan-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .plan-price {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .price-amount {
+        font-size: 3rem;
+        font-weight: 800;
+        color: #265d52;
+      }
+
+      .price-period {
+        color: #666;
+        font-size: 1rem;
+      }
+
+      .plan-features {
+        list-style: none;
+        margin-bottom: 2rem;
+      }
+
+      .plan-features li {
+        padding: 0.5rem 0;
+        color: #666;
+        position: relative;
+        /* Removed padding-left: 2rem; to align text without icon */
+        /* Removed the ::before pseudo-element that added the checkmark icon */
+      }
+
+      .plan-features li::before {
+        content: none; /* Removed the checkmark icon */
+      }
+
+      .plan-btn {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(135deg, #265d52, #2e7163);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .plan-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(241, 110, 124, 0.3);
+      }
+
+      /* Testimonials Section (kept as is) */
+      .testimonials {
+        padding: 5rem 0;
+        background: linear-gradient(135deg, #a7c7e7 0%, #e6daf0 100%);
+      }
+
+      .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .testimonial-card {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border: 1px solid #f0f0f0;
+      }
+
+      .testimonial-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+      }
+
+      .stars {
+        color: #ffd700;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+      }
+
+      .testimonial-text {
+        color: #666;
+        font-style: italic;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+      }
+
+      .testimonial-author {
+        display: flex;
+        align-items: center;
+      }
+
+      .author-avatar {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #265d52, #2e7163);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 700;
+        margin-right: 1rem;
+      }
+
+      .author-info h4 {
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 0.2rem;
+      }
+
+      .author-info p {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      /* FAQ Section (kept as is) */
+      .faq {
+        padding: 5rem 0;
+        background: white;
+      }
+
+      .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .faq-item {
+        background: white;
+        border: 1px solid #f0f0f0;
+        border-radius: 15px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .faq-item:hover {
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .faq-question {
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #a7c7e7, #e6daf0);
+        cursor: pointer;
+        font-weight: 600;
+        color: #333;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s ease;
+      }
+
+      .faq-question:hover {
+        color: #265d52;
+      }
+
+      .faq-question::after {
+        content: "+";
+        font-size: 1.5rem;
+        color: #265d52;
+        transition: transform 0.3s ease;
+      }
+
+      .faq-item.active .faq-question::after {
+        transform: rotate(45deg);
+      }
+
+      .faq-answer {
+        padding: 0 1.5rem;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        color: #666;
+        line-height: 1.6;
+      }
+
+      .faq-item.active .faq-answer {
+        padding: 1.5rem;
+        max-height: 200px;
+      }
+
+      /* Articles Section (kept as is) */
+      .articles {
+        padding: 5rem 0;
+        background: linear-gradient(135deg, #a7c7e7 0%, #e6daf0 100%);
+      }
+
+      .articles-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .article-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border: 1px solid #f0f0f0;
+      }
+
+      .article-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+      }
+
+      .article-image {
+        height: 200px;
+        background: linear-gradient(135deg, #265d52, #2e7163);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .article-content {
+        padding: 2rem;
+      }
+
+      .article-meta {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+      }
+
+      .article-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 1rem;
+        line-height: 1.4;
+      }
+
+      .article-excerpt {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+      }
+
+      .article-link {
+        color: #265d52;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .article-link:hover {
+        color: #265d52;
+        transform: translateX(5px);
+      }
+
+      /* Contact Section (kept as is) */
+      .contact {
+        padding: 5rem 0;
+        background: white;
+      }
+
+      .contact-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        margin-top: 3rem;
+      }
+
+      .contact-form {
+        background: linear-gradient(135deg, #a7c7e7, #e6daf0);
+        padding: 3rem;
+        border-radius: 20px;
+        border: 1px solid #f0f0f0;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 0.5rem;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: white;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #265d52;
+        box-shadow: 0 0 0 3px rgba(241, 110, 124, 0.1);
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 120px;
+      }
+
+      .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .contact-item {
+        display: flex;
+        align-items: center;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #a7c7e7, #e6daf0);
+        border-radius: 15px;
+        transition: transform 0.3s ease;
+      }
+
+      .contact-item:hover {
+        transform: translateX(10px);
+      }
+
+      .contact-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #265d52, #2e7163);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        font-size: 1.2rem;
+      }
+
+      .contact-details h4 {
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 0.2rem;
+      }
+
+      .contact-details p {
+        color: #666;
+      }
+
+      /* Footer (kept as is) */
+      .footer {
+        background: #333;
+        color: white;
+        padding: 3rem 0 1rem;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .footer-section h3 {
+        color: #265d52;
+        margin-bottom: 1rem;
+      }
+
+      .footer-section ul {
+        list-style: none;
+      }
+
+      .footer-section ul li {
+        margin-bottom: 0.5rem;
+      }
+
+      .footer-section ul li a {
+        color: #ccc;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-section ul li a:hover {
+        color: #265d52;
+      }
+
+      .footer-bottom {
+        border-top: 1px solid #555;
+        padding-top: 1rem;
+        text-align: center;
+        color: #ccc;
+      }
+
+      /* Responsive Design (kept as is) */
+      @media (max-width: 768px) {
+        .nav-menu {
+          display: none;
+        }
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+        .hero-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+        .hero-stats {
+          flex-direction: column;
+          gap: 1.5rem;
+        }
+        .search-inputs {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+        .about-content,
+        .contact-content {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+        .about-stats {
+          grid-template-columns: 1fr;
+        }
+        .services-grid,
+        .features-grid,
+        .pricing-grid,
+        .testimonials-grid,
+        .articles-grid {
+          grid-template-columns: 1fr;
+        }
+        .walking-dog,
+        .running-cat,
+        .flying-bird {
+          display: none;
+        }
+      }
+
+      /* Scroll animations (kept as is) */
+      .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease;
+      }
+
+      .animate-on-scroll.animated {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .contact-icon {
+        color: #fff;
+      }
+      .contact-form h3 {
+        font-weight: 600;
+        padding-bottom: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="nav-container">
+        <div class="logo">
+          <img src="images/green-logo.png" alt="StayWithMyPet Logo" />
+        </div>
+        <nav>
+          <ul class="nav-menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About Us</a></li>
+            <!-- <li><a href="#">Why Choose Us</a></li> -->
+            <!-- <li><a href="#">Subscriptions</a></li> -->
+            <!-- <li><a href="#">Testimonials</a></li> -->
+            <!-- <li><a href="#">FAQ</a></li> -->
+            <li><a href="#">Articles</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </nav>
+        <div class="auth-buttons">
+          <a href="#" class="btn btn-outline">Log In</a>
+          <a href="#" class="btn btn-primary">Sign Up</a>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <!-- <div class="floating-elements">
+            <div class="floating-paw">🐾</div>
+            <div class="floating-paw">🐾</div>
+            <div class="floating-paw">🐾</div>
+        </div> -->
+
+      <div class="hero-content">
+        <div class="hero-badge">🐾 Welcome to Pet Paradise</div>
+        <h1>
+          Find Loving <span class="highlight">Companionship</span><br />or Share
+          Your Pet's Joy
+        </h1>
+        <p>
+          Flexible, responsible, and caring pet-sharing experience that brings
+          joy to both pets and people.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#" class="btn btn-primary">Find a Pet 🐶</a>
+          <!-- <a href="#" class="btn btn-primary">Find a Pet 🐕</a> -->
+          <a href="#" class="btn btn-outline"
+            ><i class="fa fa-video-camera" aria-hidden="true"></i> Watch How It
+            Works</a
+          >
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-number">1000+</span>
+            <span class="stat-label">Happy Pets</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">500+</span>
+            <span class="stat-label">Trusted Sitters</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">2000+</span>
+            <span class="stat-label">Successful Matches</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="search-section">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <div class="section-badge">
+            <i class="fa fa-search" aria-hidden="true"></i> Start Your Journey
+          </div>
+          <h2 class="section-title">
+            Start Your <span class="highlight">Search</span> Today
+          </h2>
+          <p class="section-description">
+            Find the perfect pet companion or caring sitter in your area with
+            our advanced search system.
+          </p>
+        </div>
+
+        <div class="search-form animate-on-scroll">
+          <div class="search-inputs">
+            <div class="input-group">
+              <label for="pet-location">Looking for a Pet?</label>
+              <input
+                type="text"
+                id="pet-location"
+                placeholder="Enter your location..."
+              />
+            </div>
+            <div class="input-group">
+              <label for="sitter-location">Need a Pet Sitter?</label>
+              <input
+                type="text"
+                id="sitter-location"
+                placeholder="Enter your location..."
+              />
+            </div>
+          </div>
+          <button class="search-btn">Search Now</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery-section">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <div class="section-badge">
+            Gallery
+          </div>
+          <h2 class="section-title">
+            Our Happy <span class="highlight">Companions</span>
+          </h2>
+          <p class="section-description">
+            A vibrant collection of moments with our adorable furry friends.
+          </p>
+        </div>
+
+        <div class="masonry-gallery animate-on-scroll">
+          <div class="gallery-item tall">
+            <img
+              src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=800&q=60"
+              alt="Pet 1"
+            />
+          </div>
+          <div class="gallery-item wide">
+            <img
+              src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=800&q=60"
+              alt="Pet 2"
+            />
+          </div>
+          <div class="gallery-item">
+            <img
+              src="https://th.bing.com/th/id/OIP.OXAnFMe7dzTHRHcaK1SQcQHaFj?rs=1&pid=ImgDetMain"
+              alt="Pet 3"
+            />
+          </div>
+          <div class="gallery-item tall wide">
+            <img
+              src="https://th.bing.com/th/id/OIP.UtiNKSBSP1akCPzh28ofbgAAAA?w=474&h=434&rs=1&pid=ImgDetMain"
+              alt="Pet 4"
+            />
+          </div>
+          <div class="gallery-item">
+            <img
+              src="https://th.bing.com/th/id/OIP.6x_HVBn59ehnIQF390HwEwHaEo?w=318&h=180&c=7&r=0&o=7&dpr=1.1&pid=1.7&rm=3"
+              alt="Pet 5"
+            />
+          </div>
+          <div class="gallery-item">
+            <img
+              src="https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=800&q=60"
+              alt="Pet 6"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="services">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <div class="section-badge">Our Services</div>
+          <h2 class="section-title">
+            Complete Pet Care <span class="highlight">Solutions</span>
+          </h2>
+          <p class="section-description">
+            From pet sitting to grooming, we offer comprehensive services to
+            keep your furry friends happy and healthy.
+          </p>
+        </div>
+
+        <div class="services-grid">
+          <div class="service-card animate-on-scroll">
+            <div class="service-icon">
+              <img src="images/icons8-pet-100.png" />
+            </div>
+            <h3 class="service-title">Pet Sitting</h3>
+            <p class="service-description">
+              Professional pet sitters who provide loving care in your home or
+              theirs.
+            </p>
+            <button class="service-btn">Learn More</button>
+          </div>
+
+          <div class="service-card animate-on-scroll">
+            <div class="service-icon">
+              <img src="images/icons8-pet-48 (3).png" />
+            </div>
+            <h3 class="service-title">Dog Walking</h3>
+            <p class="service-description">
+              Regular walks and exercise to keep your dog healthy and happy.
+            </p>
+            <button class="service-btn">Learn More</button>
+          </div>
+
+          <div class="service-card animate-on-scroll">
+            <div class="service-icon">
+              <img src="images/icons8-pet-48 (4).png" />
+            </div>
+            <h3 class="service-title">Pet Grooming</h3>
+            <p class="service-description">
+              Complete grooming services to keep your pet looking and feeling
+              great.
+            </p>
+            <button class="service-btn">Learn More</button>
+          </div>
+
+          <div class="service-card animate-on-scroll">
+            <div class="service-icon">
+              <img src="images/love_6915434.png" />
+            </div>
+            <h3 class="service-title">Veterinary Care</h3>
+            <p class="service-description">
+              Access to qualified veterinarians for health checkups and
+              treatments.
+            </p>
+            <button class="service-btn">Learn More</button>
+          </div>
+
+          <div class="service-card animate-on-scroll">
+            <div class="service-icon">
+              <img src="images/icons8-pet-48.png" />
+            </div>
+            <h3 class="service-title">Pet Training</h3>
+            <p class="service-description">
+              Professional training services to help your pet learn good
+              behavior.
+            </p>
+            <button class="service-btn">Learn More</button>
+          </div>
+
+          <div class="service-card animate-on-scroll">
+            <div class="service-icon">
+              <img src="images/first-aid-kit_8023023.png" />
+            </div>
+            <h3 class="service-title">Emergency Care</h3>
+            <p class="service-description">
+              24/7 emergency support for urgent pet care situations.
+            </p>
+            <button class="service-btn">Learn More</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <div class="section-badge">About Us</div>
+          <h2 class="section-title">
+            Passionate About <span class="highlight">Pet Care</span>
+          </h2>
+        </div>
+
+        <div class="about-content">
+          <div class="about-text">
+            <h3>Founded by pet lovers for pet lovers</h3>
+            <p>
+              StayWithMyPet was born from the belief that every pet deserves
+              love, care, and companionship, even when their owners can't be
+              there.
+            </p>
+            <p>
+              Our platform connects responsible pet owners with caring
+              individuals who understand the joy and responsibility that comes
+              with pet care. We've created a community where trust, safety, and
+              love for animals come first.
+            </p>
+
+            <div class="about-stats">
+              <div class="about-stat">
+                <span class="about-stat-number">5+</span>
+                <span class="about-stat-label">Years Experience</span>
+              </div>
+              <div class="about-stat">
+                <span class="about-stat-number">10K+</span>
+                <span class="about-stat-label">Happy Customers</span>
+              </div>
+            </div>
+
+            <a href="#" class="btn btn-primary">Learn More About Us</a>
+          </div>
+
+          <div class="about-visual">
+            <div class="about-grid">
+              <div class="about-feature">
+                <div class="about-feature-icon">
+                  <img src="images/shield_13561884.png" />
+                </div>
+                <h4>Pet Safety First</h4>
+                <p>Your pet's safety and wellbeing is our top priority.</p>
+              </div>
+              <div class="about-feature">
+                <div class="about-feature-icon">
+                  <img src="images/good-person_12112619.png" />
+                </div>
+                <h4>Verified Sitters</h4>
+                <p>All our sitters are background checked and verified.</p>
+              </div>
+              <div class="about-feature">
+                <div class="about-feature-icon">
+                  <img src="images/pet-care_8774238.png" />
+                </div>
+                <h4>Love & Care</h4>
+                <p>We match pets with sitters who truly love animals.</p>
+              </div>
+              <div class="about-feature">
+                <div class="about-feature-icon">
+                  <img src="images/help-desk_4961736.png" />
+                </div>
+                <h4>24/7 Support</h4>
+                <p>Round-the-clock support for peace of mind.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="why-choose" class="why-choose">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <div class="section-badge">Why Choose Us</div>
+          <h2 class="section-title">
+            The Best Choice for Your
+            <span class="highlight">Furry Friends</span>
+          </h2>
+          <p class="section-description">
+            We stand out from the competition with our commitment to quality,
+            safety, and exceptional service.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card animate-on-scroll">
+            <div class="feature-icon">
+              <img src="images/network_2622191.png" />
+            </div>
+            <h3 class="service-title">Trusted Network</h3>
+            <p class="service-description">
+              Carefully vetted and verified pet sitters you can trust with your
+              beloved pets.
+            </p>
+          </div>
+
+          <div class="feature-card animate-on-scroll">
+            <div class="feature-icon">
+              <img src="images/stopwatch_4071856.png" />
+            </div>
+            <h3 class="service-title">Flexible Scheduling</h3>
+            <p class="service-description">
+              Book services that fit your schedule, from one-time visits to
+              regular care.
+            </p>
+          </div>
+
+          <div class="feature-card animate-on-scroll">
+            <div class="feature-icon">
+              <img src="images/routine_18706082.png" />
+            </div>
+            <h3 class="service-title">Real-time Updates</h3>
+            <p class="service-description">
+              Stay connected with photo updates and messages about your pet's
+              activities.
+            </p>
+          </div>
+
+          <div class="feature-card animate-on-scroll">
+            <div class="feature-icon">
+              <img src="images/price-tag_12432665.png" />
+            </div>
+            <h3 class="service-title">Affordable Pricing</h3>
+            <p class="service-description">
+              Competitive rates with transparent pricing and no hidden fees.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="subscriptions" class="subscriptions">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <div class="section-badge">Subscription Plans</div>
+          <h2 class="section-title">
+            Choose Your Perfect <span class="highlight">Plan</span>
+          </h2>
+          <p class="section-description">
+            Flexible subscription options designed to meet your pet care needs
+            and budget.
+          </p>
+        </div>
+
+        <div class="pricing-grid">
+          <div class="pricing-card animate-on-scroll">
+            <h3 class="plan-name">One Time</h3>
+            <div class="plan-price">
+              <span class="price-amount">$29</span>
+              <span class="price-period">/month</span>
+            </div>
+            <ul class="plan-features">
+              <li>Access to basic listings</li>
+              <li>Direct messaging with sitters</li>
+              <li>Standard customer support</li>
+              <li>Single service booking</li>
+            </ul>
+            <button class="plan-btn">Get Started</button>
+          </div>
+
+          <div class="pricing-card popular animate-on-scroll">
+            <h3 class="plan-name">1 Month</h3>
+            <div class="plan-price">
+              <span class="price-amount">$59</span>
+              <span class="price-period">/month</span>
+            </div>
+            <ul class="plan-features">
+              <li>Unlimited basic listings</li>
+              <li>Direct messaging with sitters</li>
+              <li>Priority customer support</li>
+              <li>Multiple service bookings</li>
+              <li>Basic insurance coverage</li>
+            </ul>
+            <button class="plan-btn">Get Started</button>
+          </div>
+
+          <div class="pricing-card animate-on-scroll">
+            <h3 class="plan-name">1 Year</h3>
+            <div class="plan-price">
+              <span class="price-amount">$99</span>
+              <span class="price-period">/year</span>
+            </div>
+            <ul class="plan-features">
+              <li>All features from 1-Month plan</li>
+              <li>Enhanced insurance coverage</li>
+              <li>Dedicated account manager</li>
+              <li>Exclusive community access</li>
+              <li>Annual pet wellness check discount</li>
+            </ul>
+            <button class="plan-btn">Get Started</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="testimonials" class="testimonials">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <div class="section-badge">Happy Stories</div>
+          <h2 class="section-title">
+            What Our <span class="highlight">Community</span> Says
+          </h2>
+        </div>
+
+        <div class="testimonials-grid">
+          <div class="testimonial-card animate-on-scroll">
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star"></span>
+            <p class="testimonial-text">
+              "StayWithMyPet helped me find the perfect companion for my busy
+              lifestyle. Luna brings so much joy to my days!"
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar">S</div>
+              <div class="author-info">
+                <h4>Sarah Johnson</h4>
+                <p>Pet Lover</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card animate-on-scroll">
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star"></span>
+            <p class="testimonial-text">
+              "As a pet owner, I was worried about leaving Max. This platform
+              connected me with amazing sitters who truly care."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar">M</div>
+              <div class="author-info">
+                <h4>Mike Chen</h4>
+                <p>Pet Owner</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card animate-on-scroll">
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <p class="testimonial-text">
+              "Being a pet sitter through this platform has been incredibly
+              rewarding. I get to help pets and their families!"
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar">E</div>
+              <div class="author-info">
+                <h4>Emma Davis</h4>
+                <p>Pet Sitter</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="faq">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <div class="section-badge">FAQ</div>
+          <h2 class="section-title">
+            Frequently Asked <span class="highlight">Questions</span>
+          </h2>
+          <p class="section-description">
+            Find answers to common questions about our pet sharing platform.
+          </p>
+        </div>
+
+        <div class="faq-container">
+          <div class="faq-item animate-on-scroll">
+            <div class="faq-question">How do I find a reliable pet sitter?</div>
+            <div class="faq-answer">
+              All our pet sitters are thoroughly vetted with background checks,
+              references, and reviews from other pet owners. You can browse
+              profiles, read reviews, and even meet potential sitters before
+              making your decision.
+            </div>
+          </div>
+
+          <div class="faq-item animate-on-scroll">
+            <div class="faq-question">What if my pet has special needs?</div>
+            <div class="faq-answer">
+              Many of our sitters specialize in caring for pets with special
+              needs, including medication administration, mobility assistance,
+              and dietary restrictions. You can filter sitters based on their
+              experience with specific requirements.
+            </div>
+          </div>
+
+          <div class="faq-item animate-on-scroll">
+            <div class="faq-question">How much does pet sitting cost?</div>
+            <div class="faq-answer">
+              Pricing varies based on location, services needed, and duration.
+              Our platform shows transparent pricing upfront, and you can
+              compare rates from different sitters in your area. Most services
+              range from $25-75 per day.
+            </div>
+          </div>
+
+          <div class="faq-item animate-on-scroll">
+            <div class="faq-question">
+              What happens in case of an emergency?
+            </div>
+            <div class="faq-answer">
+              We provide 24/7 emergency support and all our sitters are trained
+              in basic pet first aid. We also maintain partnerships with local
+              veterinary clinics and have emergency protocols in place for
+              urgent situations.
+            </div>
+          </div>
+
+          <div class="faq-item animate-on-scroll">
+            <div class="faq-question">
+              Can I meet the sitter before booking?
+            </div>
+            <div class="faq-answer">
+              Absolutely! We encourage meet-and-greets between pets, owners, and
+              sitters. This helps ensure compatibility and gives you peace of
+              mind before leaving your pet in someone else's care.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="articles" class="articles">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <div class="section-badge">Latest Articles</div>
+          <h2 class="section-title">
+            Pet Care <span class="highlight">Tips & Stories</span>
+          </h2>
+          <p class="section-description">
+            Stay updated with the latest pet care tips, stories, and insights
+            from our community of pet lovers.
+          </p>
+        </div>
+
+        <div class="articles-grid">
+          <div class="article-card animate-on-scroll">
+            <div class="article-image">
+              <img src="images/articel1.jpeg" />
+            </div>
+            <div class="article-content">
+              <div class="article-meta">March 15, 2024 • 5 min read</div>
+              <h3 class="article-title">
+                10 Essential Tips for First-Time Pet Owners
+              </h3>
+              <p class="article-excerpt">
+                Starting your journey as a pet owner? Here are the essential
+                tips you need to know to give your new furry friend the best
+                care possible.
+              </p>
+              <a href="#" class="article-link">Read More →</a>
+            </div>
+          </div>
+
+          <div class="article-card animate-on-scroll">
+            <div class="article-image">
+              <img src="images/articel2.jpeg" />
+            </div>
+            <div class="article-content">
+              <div class="article-meta">March 12, 2024 • 7 min read</div>
+              <h3 class="article-title">How to Choose the Right Pet Sitter</h3>
+              <p class="article-excerpt">
+                Finding the perfect pet sitter can be challenging. Learn what to
+                look for and questions to ask to ensure your pet gets the best
+                care.
+              </p>
+              <a href="#" class="article-link">Read More →</a>
+            </div>
+          </div>
+
+          <div class="article-card animate-on-scroll">
+            <div class="article-image">
+              <img src="images/articel1.jpeg" />
+            </div>
+            <div class="article-content">
+              <div class="article-meta">March 10, 2024 • 6 min read</div>
+              <h3 class="article-title">The Benefits of Pet Socialization</h3>
+              <p class="article-excerpt">
+                Discover why socializing your pet is crucial for their
+                development and how it can improve their behavior and happiness.
+              </p>
+              <a href="#" class="article-link">Read More →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <div class="section-badge">Contact Us</div>
+          <h2 class="section-title">
+            Get in <span class="highlight">Touch</span>
+          </h2>
+          <p class="section-description">
+            Have questions or need support? We're here to help you and your pets
+            every step of the way.
+          </p>
+        </div>
+
+        <div class="contact-content">
+          <div class="contact-form animate-on-scroll">
+            <h3>Send us a Message</h3>
+            <form>
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" required />
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" required />
+              </div>
+              <div class="form-group">
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" required />
+              </div>
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">
+                Send Message
+              </button>
+            </form>
+          </div>
+
+          <div class="contact-info animate-on-scroll">
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fa fa-phone" aria-hidden="true"></i>
+              </div>
+              <div class="contact-details">
+                <h4>Phone</h4>
+                <p>+1 (555) 123-4567</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+              </div>
+              <div class="contact-details">
+                <h4>Email</h4>
+                <p>hello@staywithmypet.com</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+              </div>
+              <div class="contact-details">
+                <h4>Address</h4>
+                <p>123 Pet Street, Animal City, AC 12345</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fa fa-globe" aria-hidden="true"></i>
+              </div>
+              <div class="contact-details">
+                <h4>Follow Us</h4>
+                <p>@StayWithMyPet on all social platforms</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>StayWithMyPet</h3>
+            <p>
+              Connecting pets and people for joyful companionship. We believe
+              every pet deserves love and every person deserves the joy that
+              comes from pet companionship.
+            </p>
+          </div>
+
+          <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="#services">Services</a></li>
+              <li><a href="#about">About Us</a></li>
+              <li><a href="#why-choose">Why Choose Us</a></li>
+              <li><a href="#subscriptions">Subscriptions</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-section">
+            <h3>Support</h3>
+            <ul>
+              <li><a href="#faq">FAQ</a></li>
+              <li><a href="#contact">Contact Us</a></li>
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Safety Guidelines</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-section">
+            <h3>Legal</h3>
+            <ul>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">Cookie Policy</a></li>
+              <li><a href="#">Refund Policy</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>
+            &copy; 2024 StayWithMyPet. All rights reserved. Made with ❤️ for
+            pets and their humans.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animated");
+          }
+        });
+      }, observerOptions);
+
+      // Observe all elements with animate-on-scroll class
+      document.querySelectorAll(".animate-on-scroll").forEach((el) => {
+        observer.observe(el);
+      });
+
+      // Header scroll effect
+      window.addEventListener("scroll", () => {
+        const header = document.querySelector(".header");
+        if (window.scrollY > 100) {
+          header.style.background = "rgba(255, 255, 255, 0.98)";
+          header.style.boxShadow = "0 2px 30px rgba(0, 0, 0, 0.15)";
+        } else {
+          header.style.background = "rgba(255, 255, 255, 0.95)";
+          header.style.boxShadow = "0 2px 20px rgba(0, 0, 0, 0.1)";
+        }
+      });
+
+      // Smooth scrolling for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // FAQ functionality
+      document.querySelectorAll(".faq-question").forEach((question) => {
+        question.addEventListener("click", () => {
+          const faqItem = question.parentElement;
+          const isActive = faqItem.classList.contains("active");
+
+          // Close all FAQ items
+          document.querySelectorAll(".faq-item").forEach((item) => {
+            item.classList.remove("active");
+          });
+
+          // Open clicked item if it wasn't active
+          if (!isActive) {
+            faqItem.classList.add("active");
+          }
+        });
+      });
+
+      // Form submission
+      document
+        .querySelector(".contact-form form")
+        .addEventListener("submit", (e) => {
+          e.preventDefault();
+          alert("Thank you for your message! We'll get back to you soon. 🐾");
+        });
+
+      // Add wiggle animation to floating pets on hover
+      document.querySelectorAll(".floating-pet").forEach((pet) => {
+        pet.addEventListener("mouseenter", () => {
+          pet.style.animation = "wiggle 0.5s ease-in-out";
+        });
+
+        pet.addEventListener("animationend", () => {
+          pet.style.animation = "float 4s ease-in-out infinite";
+        });
+      });
+    </script>
+  </body>
+</html>

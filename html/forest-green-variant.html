@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stay With My Pet - Forest Green Theme</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+      * {
+        font-family: "Poppins", sans-serif;
+      }
+
+      /*=============================
+    ✅ COLOR PALETTE
+=============================*/
+      :root {
+        --beige-gray: #f6f1eb;
+        --pastel-blue: #a7c7e7;
+        --mint-green: #c3e8d2;
+        --pastel-lavender: #e6daf0;
+        --deep-teal: #265d52;
+        --dark-gray: #333333;
+        --white: #ffffff;
+      }
+
+      /*=============================
+    ✅ BACKGROUND UTILITIES
+=============================*/
+      .bg-main {
+        background-color: var(--beige-gray);
+      }
+
+      .bg-blue {
+        background-color: var(--pastel-blue);
+      }
+
+      .bg-mint {
+        background-color: var(--mint-green);
+      }
+
+      .bg-lavender {
+        background-color: var(--pastel-lavender);
+      }
+
+      .bg-deep-teal {
+        background-color: var(--deep-teal);
+      }
+
+      .bg-dark {
+        background-color: var(--dark-gray);
+      }
+
+      .bg-white {
+        background-color: var(--white);
+      }
+
+      /*=============================
+    ✅ TEXT COLORS
+=============================*/
+      .text-blue {
+        color: var(--pastel-blue);
+      }
+
+      .text-mint {
+        color: var(--mint-green);
+      }
+
+      .text-lavender {
+        color: var(--pastel-lavender);
+      }
+
+      .text-deep-teal {
+        color: var(--deep-teal);
+      }
+
+      .text-dark {
+        color: var(--dark-gray);
+      }
+
+      .text-white {
+        color: var(--white);
+      }
+
+      /*=============================
+    ✅ ANIMATIONS
+=============================*/
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes slideInRight {
+        from {
+          opacity: 0;
+          transform: translateX(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-5px);
+        }
+      }
+
+      .animate-fadeInUp {
+        animation: fadeInUp 0.8s ease-out both;
+      }
+
+      .animate-slideInLeft {
+        animation: slideInLeft 0.8s ease-out both;
+      }
+
+      .animate-slideInRight {
+        animation: slideInRight 0.8s ease-out both;
+      }
+
+      .animate-bounce-custom {
+        animation: bounce 2s infinite;
+      }
+
+      .delay-200 {
+        animation-delay: 0.2s;
+      }
+      .delay-400 {
+        animation-delay: 0.4s;
+      }
+      .delay-600 {
+        animation-delay: 0.6s;
+      }
+      .delay-800 {
+        animation-delay: 0.8s;
+      }
+
+      /*=============================
+    ✅ HOVER EFFECT
+=============================*/
+      .hover-lift {
+        transition: all 0.3s ease;
+      }
+
+      .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(38, 93, 82, 0.2); /* using deep teal */
+      }
+
+      /*=============================
+    ✅ CUSTOM SCROLLBAR
+=============================*/
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: var(--beige-gray);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(
+          135deg,
+          var(--mint-green),
+          var(--pastel-blue)
+        );
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(
+          135deg,
+          var(--deep-teal),
+          var(--pastel-lavender)
+        );
+      }
+
+      /*=============================
+    ✅ GRADIENTS (PALETTE BASED)
+=============================*/
+      .bg-gradient-mint {
+        background: linear-gradient(
+          135deg,
+          var(--mint-green) 0%,
+          var(--pastel-blue) 100%
+        );
+      }
+
+      .bg-gradient-lavender {
+        background: linear-gradient(
+          135deg,
+          var(--pastel-lavender) 0%,
+          var(--white) 100%
+        );
+      }
+      .bg-gradient-brand {
+        background: linear-gradient(135deg, var(--deep-teal) 0%, var(--deep-teal) 100%);
+        color: #ffffff;
+      }
+
+      /*=============================
+    ✅ BUTTON STYLING (OPTIONAL)
+=============================*/
+      .btn-custom {
+        background-color: var(--deep-teal);
+        color: var(--white);
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: background 0.3s ease;
+      }
+
+      .btn-custom:hover {
+        background-color: #1e4a42;
+      }
+
+      /*=============================
+    ✅ RESPONSIVE TEXT
+=============================*/
+      .text-responsive {
+        font-size: clamp(1rem, 2.5vw, 1.5rem);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center">
+            <img
+              src="images/green-logo.png"
+              alt="Stay With My Pet"
+              class="h-12 w-auto"
+            />
+          </div>
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-baseline space-x-8">
+              <a
+                href="#home"
+                class="text-emerald-600 hover:text-emerald-800 px-3 py-2 text-sm font-medium transition-colors"
+                >Home</a
+              >
+              <a
+                href="#services"
+                class="text-gray-700 hover:text-emerald-600 px-3 py-2 text-sm font-medium transition-colors"
+                >Services</a
+              >
+              <a
+                href="#why-choose-us"
+                class="text-gray-700 hover:text-emerald-600 px-3 py-2 text-sm font-medium transition-colors"
+                >Why Choose Us</a
+              >
+              <a
+                href="#articles"
+                class="text-gray-700 hover:text-emerald-600 px-3 py-2 text-sm font-medium transition-colors"
+                >Articles</a
+              >
+              <a
+                href="#faq"
+                class="text-gray-700 hover:text-emerald-600 px-3 py-2 text-sm font-medium transition-colors"
+                >FAQ</a
+              >
+              <a
+                href="#contact"
+                class="text-gray-700 hover:text-emerald-600 px-3 py-2 text-sm font-medium transition-colors"
+                >Contact</a
+              >
+            </div>
+          </div>
+          <div class="md:hidden">
+            <button class="text-gray-700 hover:text-emerald-600">
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="bg-gradient-green-light pt-20 pb-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div class="animate-slideInLeft">
+            <h1 class="text-4xl lg:text-6xl font-bold text-gray-800 mb-6">
+              Your Pet's <span class="text-emerald-600">Natural</span> Care
+              Experience
+            </h1>
+            <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+              Eco-friendly, holistic pet care in the comfort of your own home.
+              We nurture your pets with natural love and care.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+              <button
+                class="bg-gradient-brand text-white px-8 py-4 rounded-full font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300"
+              >
+                <i class="fas fa-leaf mr-2"></i>
+                Book Natural Care
+              </button>
+              <button
+                class="border-2 border-emerald-600 text-emerald-600 px-8 py-4 rounded-full font-semibold hover:bg-emerald-600 hover:text-white transition-all duration-300"
+              >
+                <i class="fas fa-phone mr-2"></i>
+                Call Us
+              </button>
+            </div>
+          </div>
+          <div class="animate-slideInRight">
+            <div class="relative">
+              <img
+                src="https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg"
+                alt="Happy pets"
+                class="rounded-2xl shadow-2xl hover-lift"
+              />
+              <div
+                class="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-lg animate-bounce-custom"
+              >
+                <div class="flex items-center">
+                  <i class="fas fa-seedling text-emerald-600 text-2xl mr-3"></i>
+                  <div>
+                    <p class="font-semibold text-gray-800">500+ Happy Pets</p>
+                    <p class="text-sm text-gray-600">Naturally cared for</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-fadeInUp">
+          <h2 class="text-4xl font-bold text-gray-800 mb-4">
+            Our Natural Services
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Eco-friendly pet care services that respect nature and your pet's
+            well-being
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div
+            class="bg-white rounded-2xl shadow-lg p-8 hover-lift animate-fadeInUp delay-200"
+          >
+            <div
+              class="bg-emerald-100 w-16 h-16 rounded-full flex items-center justify-center mb-6"
+            >
+              <i class="fas fa-home text-emerald-600 text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-gray-800 mb-4">
+              Natural Pet Sitting
+            </h3>
+            <p class="text-gray-600 mb-6">
+              Holistic in-home pet sitting using natural methods to keep your
+              pets comfortable and stress-free.
+            </p>
+            <ul class="text-gray-600 space-y-2">
+              <li>
+                <i class="fas fa-check text-emerald-600 mr-2"></i>Organic
+                feeding options
+              </li>
+              <li>
+                <i class="fas fa-check text-emerald-600 mr-2"></i>Natural
+                calming techniques
+              </li>
+              <li>
+                <i class="fas fa-check text-emerald-600 mr-2"></i>Outdoor nature
+                time
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="bg-white rounded-2xl shadow-lg p-8 hover-lift animate-fadeInUp delay-400"
+          >
+            <div
+              class="bg-emerald-100 w-16 h-16 rounded-full flex items-center justify-center mb-6"
+            >
+              <i class="fas fa-walking text-emerald-600 text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-gray-800 mb-4">
+              Nature Walks
+            </h3>
+            <p class="text-gray-600 mb-6">
+              Scenic walks through parks and natural areas to connect your dog
+              with the outdoors.
+            </p>
+            <ul class="text-gray-600 space-y-2">
+              <li>
+                <i class="fas fa-check text-emerald-600 mr-2"></i>Trail and park
+                walks
+              </li>
+              <li>
+                <i class="fas fa-check text-emerald-600 mr-2"></i>Fresh air
+                exercise
+              </li>
+              <li>
+                <i class="fas fa-check text-emerald-600 mr-2"></i>Nature
+                exploration
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="bg-white rounded-2xl shadow-lg p-8 hover-lift animate-fadeInUp delay-600"
+          >
+            <div
+              class="bg-emerald-100 w-16 h-16 rounded-full flex items-center justify-center mb-6"
+            >
+              <i class="fas fa-spa text-emerald-600 text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-gray-800 mb-4">
+              Eco Grooming
+            </h3>
+            <p class="text-gray-600 mb-6">
+              Natural, chemical-free grooming using organic products that are
+              safe for your pet and the environment.
+            </p>
+            <ul class="text-gray-600 space-y-2">
+              <li>
+                <i class="fas fa-check text-emerald-600 mr-2"></i>Organic shampoos
+              </li>
+              <li>
+                <i class="fas fa-check text-emerald-600 mr-2"></i>Natural
+                conditioning
+              </li>
+              <li>
+                <i class="fas fa-check text-emerald-600 mr-2"></i>Eco-friendly
+                tools
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section id="why-choose-us" class="py-20 bg-gradient-green-light">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-fadeInUp">
+          <h2 class="text-4xl font-bold text-gray-800 mb-4">
+            Why Choose Natural Care?
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            We believe in sustainable, natural pet care that benefits your pet
+            and the planet
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div class="text-center animate-fadeInUp delay-200">
+            <div
+              class="bg-white w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg"
+            >
+              <i class="fas fa-leaf text-emerald-600 text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-3">
+              Eco-Friendly
+            </h3>
+            <p class="text-gray-600">
+              Sustainable practices that protect the environment
+            </p>
+          </div>
+
+          <div class="text-center animate-fadeInUp delay-400">
+            <div
+              class="bg-white w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg"
+            >
+              <i class="fas fa-seedling text-green-600 text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-3">
+              Natural Methods
+            </h3>
+            <p class="text-gray-600">
+              Chemical-free care using organic products
+            </p>
+          </div>
+
+          <div class="text-center animate-fadeInUp delay-600">
+            <div
+              class="bg-white w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg"
+            >
+              <i class="fas fa-tree text-emerald-600 text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-3">
+              Outdoor Focus
+            </h3>
+            <p class="text-gray-600">
+              Connecting pets with nature and fresh air
+            </p>
+          </div>
+
+          <div class="text-center animate-fadeInUp delay-800">
+            <div
+              class="bg-white w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg"
+            >
+              <i class="fas fa-heart text-lime-600 text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-3">
+              Holistic Care
+            </h3>
+            <p class="text-gray-600">
+              Caring for your pet's mind, body, and spirit
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Articles Section -->
+    <section id="articles" class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-fadeInUp">
+          <h2 class="text-4xl font-bold text-gray-800 mb-4">
+            Natural Pet Care Articles
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Expert advice on natural and holistic pet care approaches
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <article
+            class="bg-white rounded-2xl shadow-lg overflow-hidden hover-lift animate-fadeInUp delay-200"
+          >
+            <img
+              src="https://images.pexels.com/photos/1254140/pexels-photo-1254140.jpeg"
+              alt="Natural pet nutrition"
+              class="w-full h-48 object-cover"
+            />
+            <div class="p-6">
+              <div class="text-emerald-600 text-sm font-semibold mb-2">
+                NATURAL NUTRITION
+              </div>
+              <h3 class="text-xl font-semibold text-gray-800 mb-3">
+                Organic Foods for Optimal Health
+              </h3>
+              <p class="text-gray-600 mb-4">
+                Discover natural, organic food options that promote your pet's
+                health and vitality.
+              </p>
+              <a
+                href="#"
+                class="text-emerald-600 font-semibold hover:text-emerald-800 transition-colors"
+                >Read More →</a
+              >
+            </div>
+          </article>
+
+          <article
+            class="bg-white rounded-2xl shadow-lg overflow-hidden hover-lift animate-fadeInUp delay-400"
+          >
+            <img
+              src="https://images.pexels.com/photos/1851164/pexels-photo-1851164.jpeg"
+              alt="Outdoor pet activities"
+              class="w-full h-48 object-cover"
+            />
+            <div class="p-6">
+              <div class="text-green-600 text-sm font-semibold mb-2">
+                OUTDOOR ACTIVITIES
+              </div>
+              <h3 class="text-xl font-semibold text-gray-800 mb-3">
+                Nature Adventures for Pets
+              </h3>
+              <p class="text-gray-600 mb-4">
+                Fun outdoor activities to keep your pet active and connected
+                with nature.
+              </p>
+              <a
+                href="#"
+                class="text-green-600 font-semibold hover:text-green-800 transition-colors"
+                >Read More →</a
+              >
+            </div>
+          </article>
+
+          <article
+            class="bg-white rounded-2xl shadow-lg overflow-hidden hover-lift animate-fadeInUp delay-600"
+          >
+            <img
+              src="https://images.pexels.com/photos/1458916/pexels-photo-1458916.jpeg"
+              alt="Natural pet wellness"
+              class="w-full h-48 object-cover"
+            />
+            <div class="p-6">
+              <div class="text-lime-600 text-sm font-semibold mb-2">
+                WELLNESS
+              </div>
+              <h3 class="text-xl font-semibold text-gray-800 mb-3">
+                Holistic Pet Wellness
+              </h3>
+              <p class="text-gray-600 mb-4">
+                Natural approaches to maintaining your pet's physical and mental
+                well-being.
+              </p>
+              <a
+                href="#"
+                class="text-lime-600 font-semibold hover:text-lime-800 transition-colors"
+                >Read More →</a
+              >
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 bg-gradient-green-light">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-fadeInUp">
+          <h2 class="text-4xl font-bold text-gray-800 mb-4">
+            Frequently Asked Questions
+          </h2>
+          <p class="text-xl text-gray-600">
+            Learn more about our natural pet care approach
+          </p>
+        </div>
+
+        <div class="space-y-6">
+          <div
+            class="bg-white rounded-2xl shadow-lg p-6 animate-fadeInUp delay-200"
+          >
+            <button class="w-full text-left flex justify-between items-center">
+              <h3 class="text-lg font-semibold text-gray-800">
+                What makes your pet care "natural"?
+              </h3>
+              <i class="fas fa-chevron-down text-emerald-600"></i>
+            </button>
+            <div class="mt-4 text-gray-600">
+              <p>
+                We use organic, chemical-free products and focus on holistic
+                care methods. Our approach emphasizes natural nutrition, outdoor
+                activities, and stress-free environments that promote your pet's
+                overall well-being.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="bg-white rounded-2xl shadow-lg p-6 animate-fadeInUp delay-400"
+          >
+            <button class="w-full text-left flex justify-between items-center">
+              <h3 class="text-lg font-semibold text-gray-800">
+                Do you provide organic food options?
+              </h3>
+              <i class="fas fa-chevron-down text-emerald-600"></i>
+            </button>
+            <div class="mt-4 text-gray-600">
+              <p>
+                Yes! We can provide organic, natural food options or work with
+                your preferred organic brands. We believe proper nutrition is
+                the foundation of good health for your pets.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="bg-white rounded-2xl shadow-lg p-6 animate-fadeInUp delay-600"
+          >
+            <button class="w-full text-left flex justify-between items-center">
+              <h3 class="text-lg font-semibold text-gray-800">
+                Are your grooming products eco-friendly?
+              </h3>
+              <i class="fas fa-chevron-down text-emerald-600"></i>
+            </button>
+            <div class="mt-4 text-gray-600">
+              <p>
+                Absolutely! All our grooming products are biodegradable,
+                non-toxic, and made from natural ingredients. They're safe for
+                your pet, your family, and the environment.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-fadeInUp">
+          <h2 class="text-4xl font-bold text-gray-800 mb-4">
+            Connect With Nature
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Ready to give your pet natural, loving care? Let's start the
+            conversation!
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div class="animate-slideInLeft">
+            <div class="space-y-8">
+              <div class="flex items-center">
+                <div
+                  class="bg-emerald-100 w-12 h-12 rounded-full flex items-center justify-center mr-4"
+                >
+                  <i class="fas fa-phone text-emerald-600"></i>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-gray-800">Phone</h3>
+                  <p class="text-gray-600">(555) 123-4567</p>
+                </div>
+              </div>
+
+              <div class="flex items-center">
+                <div
+                  class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mr-4"
+                >
+                  <i class="fas fa-envelope text-green-600"></i>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-gray-800">Email</h3>
+                  <p class="text-gray-600">natural@staywithmypet.com</p>
+                </div>
+              </div>
+
+              <div class="flex items-center">
+                <div
+                  class="bg-lime-100 w-12 h-12 rounded-full flex items-center justify-center mr-4"
+                >
+                  <i class="fas fa-map-marker-alt text-lime-600"></i>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-gray-800">Service Area</h3>
+                  <p class="text-gray-600">Greater Metropolitan Area</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="animate-slideInRight">
+            <form class="bg-gray-50 rounded-2xl p-8">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-emerald-500 focus:outline-none"
+                />
+                <input
+                  type="email"
+                  placeholder="Your Email"
+                  class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-emerald-500 focus:outline-none"
+                />
+              </div>
+              <input
+                type="text"
+                placeholder="Subject"
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-emerald-500 focus:outline-none mb-6"
+              />
+              <textarea
+                placeholder="Tell us about your pet's needs"
+                rows="5"
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-emerald-500 focus:outline-none mb-6"
+              ></textarea>
+              <button
+                type="submit"
+                class="w-full bg-gradient-green text-white py-3 rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300"
+              >
+                Send Message
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <img
+              src="images/green-logo.png"
+              alt="Stay With My Pet"
+              class="h-12 w-auto mb-4"
+            />
+            <p class="text-gray-400">
+              Natural, eco-friendly pet care services. Your pet's health and
+              happiness, naturally.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Natural Services</h3>
+            <ul class="space-y-2 text-gray-400">
+              <li>
+                <a href="#" class="hover:text-emerald-400 transition-colors"
+                  >Natural Pet Sitting</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-emerald-400 transition-colors"
+                  >Nature Walks</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-emerald-400 transition-colors"
+                  >Eco Grooming</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-emerald-400 transition-colors"
+                  >Holistic Care</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Company</h3>
+            <ul class="space-y-2 text-gray-400">
+              <li>
+                <a href="#" class="hover:text-emerald-400 transition-colors"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-emerald-400 transition-colors"
+                  >Our Philosophy</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-emerald-400 transition-colors"
+                  >Sustainability</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-emerald-400 transition-colors"
+                  >Contact</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="text-gray-400 hover:text-emerald-400 transition-colors"
+              >
+                <i class="fab fa-facebook-f text-xl"></i>
+              </a>
+              <a
+                href="#"
+                class="text-gray-400 hover:text-emerald-400 transition-colors"
+              >
+                <i class="fab fa-twitter text-xl"></i>
+              </a>
+              <a
+                href="#"
+                class="text-gray-400 hover:text-emerald-400 transition-colors"
+              >
+                <i class="fab fa-instagram text-xl"></i>
+              </a>
+              <a
+                href="#"
+                class="text-gray-400 hover:text-emerald-400 transition-colors"
+              >
+                <i class="fab fa-linkedin-in text-xl"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400"
+        >
+          <p>
+            &copy; 2024 Stay With My Pet. All rights reserved. Naturally caring
+            since 2020.
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
